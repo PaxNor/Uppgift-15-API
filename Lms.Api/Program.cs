@@ -1,3 +1,4 @@
+using Lms.Api.Extensions;
 using Lms.Data.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// seed data
+app.SeedDataAsync().GetAwaiter().GetResult();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) {
