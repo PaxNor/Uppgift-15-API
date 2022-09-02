@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lms.Api", "Lms.Api\Lms.Api.csproj", "{470058F6-EB81-4BEA-AD3C-273B7243E987}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lms.Core", "Lms.Core\Lms.Core.csproj", "{C6F61B6A-9FA9-41A6-A6CE-3B8CA773FEE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lms.Data", "Lms.Data\Lms.Data.csproj", "{8D42A8A1-D703-4F09-B2AA-E6D5B9076098}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{470058F6-EB81-4BEA-AD3C-273B7243E987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{470058F6-EB81-4BEA-AD3C-273B7243E987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{470058F6-EB81-4BEA-AD3C-273B7243E987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{470058F6-EB81-4BEA-AD3C-273B7243E987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6F61B6A-9FA9-41A6-A6CE-3B8CA773FEE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6F61B6A-9FA9-41A6-A6CE-3B8CA773FEE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6F61B6A-9FA9-41A6-A6CE-3B8CA773FEE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6F61B6A-9FA9-41A6-A6CE-3B8CA773FEE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D42A8A1-D703-4F09-B2AA-E6D5B9076098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D42A8A1-D703-4F09-B2AA-E6D5B9076098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D42A8A1-D703-4F09-B2AA-E6D5B9076098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D42A8A1-D703-4F09-B2AA-E6D5B9076098}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {47DF6D9E-C95C-4346-BBE2-0F4C7064C16B}
+	EndGlobalSection
+EndGlobal
