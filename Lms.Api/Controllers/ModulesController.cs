@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lms.Core.Dto;
 using Lms.Core.Entities;
 using Lms.Core.Repositories;
 using Lms.Data.Data;
@@ -30,25 +31,28 @@ namespace Lms.Api.Controllers
           {
               return NotFound();
           }
-            return Ok(await uow.ModuleRepository.GetAllModules());
+            var modules = await uow.ModuleRepository.GetAllModules();
+            var result = mapper.Map<IEnumerable<ModuleDto>>(modules);
+
+            return Ok(result);
         }
 
         // GET: api/Modules/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Module>> GetModule(int id)
         {
-          if (uow.ModuleRepository == null)
-          {
-              return NotFound();
-          }
-            var @module = await uow.ModuleRepository.GetModule(id);
-
-            if (@module == null)
-            {
+            if (uow.ModuleRepository == null) {
                 return NotFound();
             }
 
-            return @module;
+            var @module = await uow.ModuleRepository.GetModule(id);
+            if (@module == null) {
+                return NotFound();
+            }
+
+            var @result = mapper.Map<ModuleDto>(@module);
+
+            return Ok(@result);
         }
 
         // PUT: api/Modules/5

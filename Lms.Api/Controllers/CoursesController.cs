@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lms.Core.Dto;
 using Lms.Core.Entities;
 using Lms.Core.Repositories;
 using Lms.Data.Data;
@@ -31,7 +32,10 @@ namespace Lms.Api.Controllers
           {
               return NotFound();
           }
-            return Ok(await uow.CourseRepository.GetAllCourses());
+            var courses = await uow.CourseRepository.GetAllCourses();
+            var result = mapper.Map<IEnumerable<CourseDto>>(courses);
+
+            return Ok(result);
         }
 
         // GET: api/Courses/5
@@ -39,16 +43,18 @@ namespace Lms.Api.Controllers
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
             // maybe safe to remove, check is made in repository method
-            if (uow.CourseRepository == null) return NotFound();
-
-            var course = await uow.CourseRepository.GetCourse(id);
-
-            if (course == null)
-            {
+            if (uow.CourseRepository == null) {
                 return NotFound();
             }
 
-            return course;
+            var course = await uow.CourseRepository.GetCourse(id);
+            if (course == null) {
+                return NotFound();
+            }
+
+            var result = mapper.Map<CourseDto>(course);
+
+            return Ok(result);
         }
 
         // PUT: api/Courses/5
