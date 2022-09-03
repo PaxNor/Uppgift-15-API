@@ -3,6 +3,7 @@ using Lms.Core.Dto;
 using Lms.Core.Entities;
 using Lms.Core.Repositories;
 using Lms.Data.Data;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -116,6 +117,32 @@ namespace Lms.Api.Controllers
             await uow.CompleteAsync();
 
             return NoContent();
+        }
+
+        [HttpPatch("{courseId}")]
+        public async Task<ActionResult<CourseDto>> PatchCourse(int courseId, JsonPatchDocument<CourseDto> patchDocument)
+        {
+            if(uow.CourseRepository == null) {
+                return NotFound();
+            }
+
+            var course = await uow.CourseRepository.GetCourse(courseId);
+            if (course == null) {
+                return NotFound();
+            }
+
+            var courseDto = mapper.Map<CourseDto>(course);
+            patchDocument.ApplyTo(courseDto, ModelState);
+
+            if(ModelState.IsValid == false) {
+                return BadRequest(ModelState);
+            }
+
+            course = mapper.Map(courseDto, course);
+
+            await uow.CompleteAsync();
+
+            return Ok(courseDto);
         }
 
         private bool CourseExists(int id) {
