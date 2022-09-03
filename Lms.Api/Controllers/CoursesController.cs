@@ -24,7 +24,7 @@ namespace Lms.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
         {
-          if (_context.Course == null)
+          if (uow.CourseRepository == null)
           {
               return NotFound();
           }

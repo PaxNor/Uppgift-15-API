@@ -1,4 +1,5 @@
 ﻿using Lms.Core.Entities;
+using Lms.Core.Repositories;
 using Lms.Data.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,32 +11,34 @@ namespace Lms.Api.Controllers
     public class ModulesController : ControllerBase
     {
         private readonly LmsApiContext _context;
+        private readonly IUnitOfWork uow;
 
-        public ModulesController(LmsApiContext context)
+        public ModulesController(LmsApiContext context, IUnitOfWork unitOfWork)
         {
             _context = context;
+            uow = unitOfWork;
         }
 
         // GET: api/Modules
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Module>>> GetModule()
         {
-          if (_context.Module == null)
+          if (uow.ModuleRepository == null)
           {
               return NotFound();
           }
-            return await _context.Module.ToListAsync();
+            return Ok(await uow.ModuleRepository.GetAllModules());
         }
 
         // GET: api/Modules/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Module>> GetModule(int id)
         {
-          if (_context.Module == null)
+          if (uow.ModuleRepository == null)
           {
               return NotFound();
           }
-            var @module = await _context.Module.FindAsync(id);
+            var @module = await uow.ModuleRepository.GetModule(id);
 
             if (@module == null)
             {
@@ -55,11 +58,15 @@ namespace Lms.Api.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(@module).State = EntityState.Modified;
+            //_context.Entry(@module).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
+
+                // not sure about this
+                uow.ModuleRepository.Update(module);
+                await uow.CompleteAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -81,12 +88,12 @@ namespace Lms.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Module>> PostModule(Module @module)
         {
-          if (_context.Module == null)
+          if (uow.ModuleRepository == null)
           {
-              return Problem("Entity set 'LmsApiContext.Module'  is null.");
+              return Problem("Entity set 'uow.ModuleRepository'  is null.");
           }
-            _context.Module.Add(@module);
-            await _context.SaveChangesAsync();
+            uow.ModuleRepository.Add(@module);
+            await uow.CompleteAsync();
 
             return CreatedAtAction("GetModule", new { id = @module.Id }, @module);
         }
@@ -95,25 +102,31 @@ namespace Lms.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {
-            if (_context.Module == null)
+            if (uow.ModuleRepository == null)
             {
                 return NotFound();
             }
-            var @module = await _context.Module.FindAsync(id);
+            var @module = await uow.ModuleRepository.GetModule(id);
+
             if (@module == null)
             {
                 return NotFound();
             }
 
-            _context.Module.Remove(@module);
-            await _context.SaveChangesAsync();
+            uow.ModuleRepository.Remove(@module);
+            await uow.CompleteAsync();
 
             return NoContent();
         }
 
-        private bool ModuleExists(int id)
-        {
+        private bool ModuleExists(int id) {
             return (_context.Module?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+        
+        private async Task<bool> ModuleExists2(int id) {
+            return await uow.ModuleRepository.AnyAsync(id);
+        }
+
+
     }
 }
