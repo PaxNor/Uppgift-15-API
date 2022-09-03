@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lms.Data.Repositories
 {
-    internal class ModuleRepository : IModuleRepository {
+    public class ModuleRepository : IModuleRepository {
         private LmsApiContext db;
 
         public ModuleRepository(LmsApiContext context) {
