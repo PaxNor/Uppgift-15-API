@@ -27,10 +27,9 @@ namespace Lms.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Module>>> GetModule()
         {
-          if (uow.ModuleRepository == null)
-          {
-              return NotFound();
-          }
+            if (uow.ModuleRepository == null) {
+                return NotFound();
+            }
             var modules = await uow.ModuleRepository.GetAllModules();
             var result = mapper.Map<IEnumerable<ModuleDto>>(modules);
 
@@ -60,29 +59,24 @@ namespace Lms.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutModule(int id, Module @module)
         {
-            if (id != @module.Id)
-            {
+            if (id != @module.Id) {
                 return BadRequest();
             }
 
             //_context.Entry(@module).State = EntityState.Modified;
 
-            try
-            {
+            try {
                 //await _context.SaveChangesAsync();
 
                 // not sure about this
                 uow.ModuleRepository.Update(module);
                 await uow.CompleteAsync();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ModuleExists(id))
-                {
+            catch (DbUpdateConcurrencyException) {
+                if (!ModuleExists(id)) {
                     return NotFound();
                 }
-                else
-                {
+                else {
                     throw;
                 }
             }
@@ -95,10 +89,9 @@ namespace Lms.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Module>> PostModule(Module @module)
         {
-          if (uow.ModuleRepository == null)
-          {
-              return Problem("Entity set 'uow.ModuleRepository'  is null.");
-          }
+            if (uow.ModuleRepository == null) {
+                return Problem("Entity set 'uow.ModuleRepository'  is null.");
+            }
             uow.ModuleRepository.Add(@module);
             await uow.CompleteAsync();
 
@@ -109,14 +102,12 @@ namespace Lms.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {
-            if (uow.ModuleRepository == null)
-            {
+            if (uow.ModuleRepository == null) {
                 return NotFound();
             }
             var @module = await uow.ModuleRepository.GetModule(id);
 
-            if (@module == null)
-            {
+            if (@module == null) {
                 return NotFound();
             }
 

@@ -1,7 +1,6 @@
 ﻿using Lms.Core.Entities;
 using Lms.Core.Repositories;
 using Lms.Data.Data;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lms.Data.Repositories

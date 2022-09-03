@@ -3,7 +3,6 @@ using Lms.Core.Dto;
 using Lms.Core.Entities;
 using Lms.Core.Repositories;
 using Lms.Data.Data;
-using Lms.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,10 +27,9 @@ namespace Lms.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
         {
-          if (uow.CourseRepository == null)
-          {
-              return NotFound();
-          }
+            if (uow.CourseRepository == null) {
+                return NotFound();
+            }
             var courses = await uow.CourseRepository.GetAllCourses();
             var result = mapper.Map<IEnumerable<CourseDto>>(courses);
 
@@ -62,29 +60,24 @@ namespace Lms.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse(int id, Course course)
         {
-            if (id != course.Id)
-            {
+            if (id != course.Id) {
                 return BadRequest();
             }
 
             //_context.Entry(course).State = EntityState.Modified;
 
-            try
-            {
+            try {
                 //await _context.SaveChangesAsync();
 
                 // not sure about this
                 uow.CourseRepository.Update(course);
                 await uow.CompleteAsync();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CourseExists(id))
-                {
+            catch (DbUpdateConcurrencyException) {
+                if (!CourseExists(id)) {
                     return NotFound();
                 }
-                else
-                {
+                else {
                     throw;
                 }
             }
@@ -97,10 +90,9 @@ namespace Lms.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
-          if (uow.CourseRepository == null)
-          {
-              return Problem("Entity set 'uow.CourseRepository'  is null.");
-          }
+            if (uow.CourseRepository == null) {
+                return Problem("Entity set 'uow.CourseRepository'  is null.");
+            }
             uow.CourseRepository.Add(course);
             await uow.CompleteAsync();
 
@@ -111,14 +103,12 @@ namespace Lms.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
-            if (uow.CourseRepository == null)
-            {
+            if (uow.CourseRepository == null) {
                 return NotFound();
             }
             var course = await uow.CourseRepository.GetCourse(id);
 
-            if (course == null)
-            {
+            if (course == null) {
                 return NotFound();
             }
 
@@ -128,8 +118,7 @@ namespace Lms.Api.Controllers
             return NoContent();
         }
 
-        private bool CourseExists(int id)
-        {
+        private bool CourseExists(int id) {
             return (_context.Course?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
