@@ -1,4 +1,5 @@
-﻿using Lms.Core.Entities;
+﻿using AutoMapper;
+using Lms.Core.Entities;
 using Lms.Core.Repositories;
 using Lms.Data.Data;
 using Lms.Data.Repositories;
@@ -13,11 +14,13 @@ namespace Lms.Api.Controllers
     {
         private readonly LmsApiContext _context;
         private readonly IUnitOfWork uow;
+        private readonly IMapper mapper;
 
-        public CoursesController(LmsApiContext context, IUnitOfWork unitOfWork)
+        public CoursesController(LmsApiContext context, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _context = context;
             uow = unitOfWork;
+            this.mapper = mapper;
         }
 
         // GET: api/Courses
