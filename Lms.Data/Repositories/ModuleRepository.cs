@@ -32,6 +32,12 @@ namespace Lms.Data.Repositories
             return await db.Module.FirstOrDefaultAsync(m => m.Id == id);
         }
 
+        public async Task<Module?> GetModuleByName(string moduleName) {
+            if (db.Module == null) return null;
+
+            return await db.Module.FirstOrDefaultAsync(m => m.Title == moduleName);
+        }
+
         /*
          * Both GetModule and FindAsync takes an id and returns a Module, what's the difference ??
          */

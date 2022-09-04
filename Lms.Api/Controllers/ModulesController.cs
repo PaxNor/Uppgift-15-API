@@ -38,14 +38,29 @@ namespace Lms.Api.Controllers
         }
 
         // GET: api/Modules/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Module>> GetModule(int id)
-        {
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Module>> GetModule(int id) {
+        //    if (uow.ModuleRepository == null) {
+        //        return NotFound();
+        //    }
+
+        //    var @module = await uow.ModuleRepository.GetModule(id);
+        //    if (@module == null) {
+        //        return NotFound();
+        //    }
+
+        //    var @result = mapper.Map<ModuleDto>(@module);
+
+        //    return Ok(@result);
+        //}
+
+        [HttpGet("{moduleName}")]
+        public async Task<ActionResult<Module>> GetModule(string moduleName) {
             if (uow.ModuleRepository == null) {
                 return NotFound();
             }
 
-            var @module = await uow.ModuleRepository.GetModule(id);
+            var @module = await uow.ModuleRepository.GetModuleByName(moduleName);
             if (@module == null) {
                 return NotFound();
             }

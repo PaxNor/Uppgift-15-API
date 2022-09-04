@@ -6,6 +6,7 @@ namespace Lms.Core.Repositories
     {
         public Task<IEnumerable<Module>?> GetAllModules();
         public Task<Module?> GetModule(int? id);
+        public Task<Module?> GetModuleByName(string moduleName);
         public Task<Module?> FindAsync(int? id);
         public Task<bool> AnyAsync(int? id);
         public void Add(Module module);
