@@ -13,7 +13,10 @@ namespace Lms.Data.Repositories
             this.db = context;
         }
 
-        public async Task<IEnumerable<Course>> GetAllCourses() {
+        public async Task<IEnumerable<Course>> GetAllCourses(bool includeModules) {
+            if (includeModules) {
+                return await db.Course.Include(c => c.Modules).ToListAsync();
+            }
             return await db.Course.ToListAsync();
         }
 

@@ -26,12 +26,12 @@ namespace Lms.Api.Controllers
 
         // GET: api/Courses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
+        public async Task<ActionResult<IEnumerable<Course>>> GetCourse(bool includeModules)
         {
             if (uow.CourseRepository == null) {
                 return NotFound();
             }
-            var courses = await uow.CourseRepository.GetAllCourses();
+            var courses = await uow.CourseRepository.GetAllCourses(includeModules);
             var result = mapper.Map<IEnumerable<CourseDto>>(courses);
 
             return Ok(result);
